@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
 using DsmSuite.Analyzer.DotNet.Lib;
 using DsmSuite.Analyzer.DotNet.Settings;
 using DsmSuite.Analyzer.Model.Interface;
 using DsmSuite.Common.Util;
-using Mono.Cecil;
 
 namespace DsmSuite.Analyzer.DotNet.Analysis
 {

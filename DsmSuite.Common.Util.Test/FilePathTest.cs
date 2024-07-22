@@ -6,6 +6,7 @@ namespace DsmSuite.Common.Util.Test
     [TestClass]
     public class FilePathTest
     {
+        // todo Fix hardcoded temp paths.
         [TestMethod]
         public void WhenResolveFileIsCalledWithAnAbsoluteFilenameThenTheAbsoluteFileNameIsReturned()
         {

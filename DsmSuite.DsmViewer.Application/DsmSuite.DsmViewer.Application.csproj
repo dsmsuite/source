@@ -1,98 +1,23 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <Import Project="..\PropertySheets\DsmSuite.Common.props" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{F864BD74-A7E3-4349-BE07-F0725A2EA589}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DsmSuite.DsmViewer.Application</RootNamespace>
-    <AssemblyName>DsmSuite.DsmViewer.Application</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <AssemblyTitle>DsmSuite.DsmViewer.Application</AssemblyTitle>
+    <Product>DsmSuite.DsmViewer.Application</Product>
+    <Copyright>Copyright ©  2019</Copyright>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <ProjectReference Include="..\DsmSuite.Analyzer.Model\DsmSuite.Analyzer.Model.csproj" />
+    <ProjectReference Include="..\DsmSuite.Common.Model\DsmSuite.Common.Model.csproj" />
+    <ProjectReference Include="..\DsmSuite.Common.Util\DsmSuite.Common.Util.csproj" />
+    <ProjectReference Include="..\DsmSuite.DsmViewer.Model\DsmSuite.DsmViewer.Model.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Actions\Element\ElementPasteAction.cs" />
-    <Compile Include="Actions\Element\ElementCopyAction.cs" />
-    <Compile Include="Actions\Element\ElementCutAction.cs" />
-    <Compile Include="Actions\Management\ActionContext.cs" />
-    <Compile Include="Actions\Management\IActionContext.cs" />
-    <Compile Include="Interfaces\ActionType.cs" />
-    <Compile Include="Actions\Base\ActionAttributes.cs" />
-    <Compile Include="Actions\Management\ActionStore.cs" />
-    <Compile Include="Actions\Management\ActionManager.cs" />
-    <Compile Include="Actions\Base\ActionReadOnlyAttributes.cs" />
-    <Compile Include="Actions\Element\ElementChangeTypeAction.cs" />
-    <Compile Include="Actions\Management\IActionManager.cs" />
-    <Compile Include="Actions\Relation\RelationChangeWeightAction.cs" />
-    <Compile Include="Import\Common\ImporterBase.cs" />
-    <Compile Include="Import\Common\DsmBuilder.cs" />
-    <Compile Include="Import\Common\IDsmBuilder.cs" />
-    <Compile Include="Metrics\DsmMetrics.cs" />
-    <Compile Include="Sorting\AlphabeticalSortAlgorithm.cs" />
-    <Compile Include="Sorting\SortResult.cs" />
-    <Compile Include="Sorting\ISortAlgorithm.cs" />
-    <Compile Include="Sorting\SortAlgorithmFactory.cs" />
-    <Compile Include="Interfaces\IAction.cs" />
-    <Compile Include="Actions\Element\ElementCreateAction.cs" />
-    <Compile Include="Actions\Element\ElementDeleteAction.cs" />
-    <Compile Include="Actions\Element\ElementChangeParentAction.cs" />
-    <Compile Include="Actions\Element\ElementChangeNameAction.cs" />
-    <Compile Include="Actions\Element\ElementSortAction.cs" />
-    <Compile Include="Actions\Element\ElementMoveUpAction.cs" />
-    <Compile Include="Actions\Element\ElementMoveDownAction.cs" />
-    <Compile Include="Actions\Relation\RelationCreateAction.cs" />
-    <Compile Include="Actions\Relation\RelationDeleteAction.cs" />
-    <Compile Include="Actions\Relation\RelationChangeTypeAction.cs" />
-    <Compile Include="Actions\Snapshot\MakeSnapshotAction.cs" />
-    <Compile Include="Sorting\PartitioningSortAlgorithm.cs" />
-    <Compile Include="Sorting\PartitioningCalculation.cs" />
-    <Compile Include="Sorting\Permutation.cs" />
-    <Compile Include="Sorting\WeightsMatrix.cs" />
-    <Compile Include="Core\DsmApplication.cs" />
-    <Compile Include="Import\Dsi\DsiImporter.cs" />
-    <Compile Include="Interfaces\IDsmApplication.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Queries\DsmQueries.cs" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
   </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <ProjectReference Include="..\DsmSuite.Analyzer.Model\DsmSuite.Analyzer.Model.csproj">
-      <Project>{7106d2f0-804e-4f73-950c-266ffc096a87}</Project>
-      <Name>DsmSuite.Analyzer.Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DsmSuite.Common.Model\DsmSuite.Common.Model.csproj">
-      <Project>{6e26eaa0-d0d6-41ab-9aed-61542f7edfc5}</Project>
-      <Name>DsmSuite.Common.Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DsmSuite.Common.Util\DsmSuite.Common.Util.csproj">
-      <Project>{c2eb943f-4bb8-47bb-bdc1-7f6b607fb977}</Project>
-      <Name>DsmSuite.Common.Util</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DsmSuite.DsmViewer.Model\DsmSuite.DsmViewer.Model.csproj">
-      <Project>{ae2405c6-54ca-43b1-bcf0-36b7010c0f0e}</Project>
-      <Name>DsmSuite.DsmViewer.Model</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

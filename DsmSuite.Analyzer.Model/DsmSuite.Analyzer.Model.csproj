@@ -1,58 +1,20 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <Import Project="..\PropertySheets\DsmSuite.Common.props" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <TargetFramework>net8.0</TargetFramework>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{7106D2F0-804E-4F73-950C-266FFC096A87}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DsmSuite.Analyzer.Model</RootNamespace>
-    <AssemblyName>DsmSuite.Analyzer.Model</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <AssemblyTitle>DsmSuite.Analyzer.Model</AssemblyTitle>
+    <Product>DsmSuite.Analyzer.Model</Product>
+    <Copyright>Copyright ©  2018</Copyright>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <ProjectReference Include="..\DsmSuite.Common.Model\DsmSuite.Common.Model.csproj" />
+    <ProjectReference Include="..\DsmSuite.Common.Util\DsmSuite.Common.Util.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\DsiElementModel.cs" />
-    <Compile Include="Core\DsiRelationModel.cs" />
-    <Compile Include="Persistency\DsiModelFile.cs" />
-    <Compile Include="Core\DsiElement.cs" />
-    <Compile Include="Interface\IDsiModel.cs" />
-    <Compile Include="Core\DsiModel.cs" />
-    <Compile Include="Interface\IDsiElement.cs" />
-    <Compile Include="Interface\IDsiRelation.cs" />
-    <Compile Include="Persistency\IDsiElementModelFileCallback.cs" />
-    <Compile Include="Persistency\IDsiRelationModelFileCallback.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Core\DsiRelation.cs" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DsmSuite.Common.Model\DsmSuite.Common.Model.csproj">
-      <Project>{6e26eaa0-d0d6-41ab-9aed-61542f7edfc5}</Project>
-      <Name>DsmSuite.Common.Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DsmSuite.Common.Util\DsmSuite.Common.Util.csproj">
-      <Project>{c2eb943f-4bb8-47bb-bdc1-7f6b607fb977}</Project>
-      <Name>DsmSuite.Common.Util</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

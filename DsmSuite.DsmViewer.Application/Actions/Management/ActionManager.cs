@@ -3,7 +3,6 @@ using System.Linq;
 using System.Collections.Generic;
 using DsmSuite.Common.Util;
 using DsmSuite.DsmViewer.Application.Interfaces;
-using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Management
 {

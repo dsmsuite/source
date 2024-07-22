@@ -1,92 +1,24 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <Import Project="..\PropertySheets\DsmSuite.Common.props" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{0B3FD709-0509-42FB-9852-F0221283255E}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DsmSuite.DsmViewer.ViewModel</RootNamespace>
-    <AssemblyName>DsmSuite.DsmViewer.ViewModel</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <AssemblyTitle>DsmSuite.DsmViewer.ViewModel</AssemblyTitle>
+    <Product>DsmSuite.DsmViewer.ViewModel</Product>
+    <Copyright>Copyright ©  2019</Copyright>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PresentationCore" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Windows" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
+    <ProjectReference Include="..\DsmSuite.Common.Util\DsmSuite.Common.Util.csproj" />
+    <ProjectReference Include="..\DsmSuite.DsmViewer.Application\DsmSuite.DsmViewer.Application.csproj" />
+    <ProjectReference Include="..\DsmSuite.DsmViewer.Model\DsmSuite.DsmViewer.Model.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Editing\Element\ElementEditViewModel.cs" />
-    <Compile Include="Editing\Element\ElementEditViewModelType.cs" />
-    <Compile Include="Editing\Relation\RelationEditViewModel.cs" />
-    <Compile Include="Editing\Relation\RelationEditViewModelType.cs" />
-    <Compile Include="Editing\Snapshot\SnapshotMakeViewModel.cs" />
-    <Compile Include="Lists\ActionListItemViewModel.cs" />
-    <Compile Include="Lists\ActionListViewModel.cs" />
-    <Compile Include="Lists\ElementListItemViewModel.cs" />
-    <Compile Include="Lists\ElementListViewModel.cs" />
-    <Compile Include="Lists\ElementListViewModelType.cs" />
-    <Compile Include="Lists\RelationListItemViewModel.cs" />
-    <Compile Include="Lists\RelationsListViewModelType.cs" />
-    <Compile Include="Main\ElementSearchViewModel.cs" />
-    <Compile Include="Main\IndicatorViewMode.cs" />
-    <Compile Include="Main\ProgressViewModel.cs" />
-    <Compile Include="Lists\RelationListViewModel.cs" />
-    <Compile Include="Main\SearchState.cs" />
-    <Compile Include="Matrix\ElementToolTipViewModel.cs" />
-    <Compile Include="Matrix\LegendColor.cs" />
-    <Compile Include="Matrix\LegendViewModel.cs" />
-    <Compile Include="Matrix\MetricType.cs" />
-    <Compile Include="Matrix\CellToolTipViewModel.cs" />
-    <Compile Include="Settings\SettingsViewModel.cs" />
-    <Compile Include="Matrix\ElementTreeItemViewModel.cs" />
-    <Compile Include="Main\IMainViewModel.cs" />
-    <Compile Include="Main\MainViewModel.cs" />
-    <Compile Include="Matrix\IMatrixViewModel.cs" />
-    <Compile Include="Matrix\MatrixColor.cs" />
-    <Compile Include="Matrix\MatrixColorConverter.cs" />
-    <Compile Include="Matrix\MatrixViewModel.cs" />
-    <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Common\RelayCommand.cs" />
-    <Compile Include="Common\ViewModelBase.cs" />
-    <Compile Include="Settings\Theme.cs" />
-    <Compile Include="Settings\ViewerSetting.cs" />
-    <Compile Include="Settings\ViewerSettingsData.cs" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DsmSuite.Common.Util\DsmSuite.Common.Util.csproj">
-      <Project>{c2eb943f-4bb8-47bb-bdc1-7f6b607fb977}</Project>
-      <Name>DsmSuite.Common.Util</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DsmSuite.DsmViewer.Application\DsmSuite.DsmViewer.Application.csproj">
-      <Project>{f864bd74-a7e3-4349-be07-f0725a2ea589}</Project>
-      <Name>DsmSuite.DsmViewer.Application</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DsmSuite.DsmViewer.Model\DsmSuite.DsmViewer.Model.csproj">
-      <Project>{ae2405c6-54ca-43b1-bcf0-36b7010c0f0e}</Project>
-      <Name>DsmSuite.DsmViewer.Model</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

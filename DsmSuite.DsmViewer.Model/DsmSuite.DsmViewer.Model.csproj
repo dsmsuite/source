@@ -1,73 +1,19 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <Import Project="..\PropertySheets\DsmSuite.Common.props" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <ProjectGuid>{AE2405C6-54CA-43B1-BCF0-36B7010C0F0E}</ProjectGuid>
+    <TargetFramework>net8.0</TargetFramework>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DsmSuite.DsmViewer.Model</RootNamespace>
-    <AssemblyName>DsmSuite.DsmViewer.Model</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <AssemblyTitle>DsmSuite.DsmViewer.Model</AssemblyTitle>
+    <Product>DsmSuite.DsmViewer.Model</Product>
+    <Copyright>Copyright ©  2019</Copyright>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.IO.Compression.FileSystem" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <ProjectReference Include="..\DsmSuite.Common.Model\DsmSuite.Common.Model.csproj" />
+    <ProjectReference Include="..\DsmSuite.Common.Util\DsmSuite.Common.Util.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\DsmAction.cs" />
-    <Compile Include="Core\DsmActionModel.cs" />
-    <Compile Include="Core\DsmDependencies.cs" />
-    <Compile Include="Core\DsmElementModel.cs" />
-    <Compile Include="Core\DsmRelationModel.cs" />
-    <Compile Include="Interfaces\CycleType.cs" />
-    <Compile Include="Interfaces\IDsmAction.cs" />
-    <Compile Include="Interfaces\ISortResult.cs" />
-    <Compile Include="Core\DsmModel.cs" />
-    <Compile Include="Interfaces\RelationDirection.cs" />
-    <Compile Include="Interfaces\RelationScope.cs" />
-    <Compile Include="Persistency\DsmModelFile.cs" />
-    <Compile Include="Persistency\IDsmActionModelFileCallback.cs" />
-    <Compile Include="Persistency\IDsmElementModelFileCallback.cs" />
-    <Compile Include="Interfaces\IDsmModel.cs" />
-    <Compile Include="Interfaces\IDsmElement.cs" />
-    <Compile Include="Interfaces\IDsmRelation.cs" />
-    <Compile Include="Persistency\IDsmRelationModelFileCallback.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Core\DsmRelation.cs" />
-    <Compile Include="Core\NameRegistration.cs" />
-    <Compile Include="Core\DsmElement.cs" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DsmSuite.Analyzer.Model\DsmSuite.Analyzer.Model.csproj">
-      <Project>{7106D2F0-804E-4F73-950C-266FFC096A87}</Project>
-      <Name>DsmSuite.Analyzer.Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DsmSuite.Common.Model\DsmSuite.Common.Model.csproj">
-      <Project>{6e26eaa0-d0d6-41ab-9aed-61542f7edfc5}</Project>
-      <Name>DsmSuite.Common.Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DsmSuite.Common.Util\DsmSuite.Common.Util.csproj">
-      <Project>{c2eb943f-4bb8-47bb-bdc1-7f6b607fb977}</Project>
-      <Name>DsmSuite.Common.Util</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

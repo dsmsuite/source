@@ -1,1 +1,0 @@
-packages\OpenCover.4.7.922\tools\OpenCover.Console.exe -target:run_tests_dsmsuite.bat -register:user -filter:"+[DsmSuite*]* -[*Test]*"

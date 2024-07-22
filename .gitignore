@@ -1,5 +1,5 @@
-build/
-packages/
+*/obj/
+*/bin/
 idloutput/
 *.suo
 *.tlb
