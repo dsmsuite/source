@@ -6,6 +6,9 @@ using DsmSuite.DsmViewer.Model.Persistency;
 
 namespace DsmSuite.DsmViewer.Model.Core
 {
+    /// <summary>
+    /// Manages the elements of a model. Only used by DsmModel, which forwards calls here.
+    /// </summary>
     public class DsmElementModel : IDsmElementModelFileCallback
     {
         private readonly Dictionary<int /*id*/, DsmElement> _elementsById;

@@ -4,6 +4,12 @@ using DsmSuite.DsmViewer.Model.Interfaces;
 
 namespace DsmSuite.DsmViewer.Application.Queries
 {
+    /// <summary>
+    /// Contains some but not all queries the application executes on the model
+    /// </summary>
+    /// TODO Can this class be made more useful?
+    /// DsmApplicaton does some queries as well and dispatches others here. Can we make this class more useful
+    /// by forwarding once and dispatching here?
     public class DsmQueries
     {
         private readonly IDsmModel _model;

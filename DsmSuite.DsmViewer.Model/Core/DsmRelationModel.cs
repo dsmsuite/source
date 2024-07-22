@@ -6,6 +6,9 @@ using DsmSuite.DsmViewer.Model.Persistency;
 
 namespace DsmSuite.DsmViewer.Model.Core
 {
+    /// <summary>
+    /// Manages the relations of a model. Only used by DsmModel, which forwards calls here.
+    /// </summary>
     public class DsmRelationModel : IDsmRelationModelFileCallback
     {
         private readonly Dictionary<int /*relationId*/, DsmRelation> _relationsById;

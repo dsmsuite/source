@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="These three store the relation/element/action data of the model">
+    <Position X="10.258" Y="2.673" Height="0.75" Width="1.7" />
+  </Comment>
+  <Comment CommentText="Why does DsmRelationModel have DsmRelation instead of IDsmRelation???">
+    <Position X="0.5" Y="5.975" Height="0.75" Width="1.849" />
+  </Comment>
+  <Comment CommentText="DsmDependencies provide relation lookup for a DsmElement.">
+    <Position X="6.187" Y="6.477" Height="0.594" Width="1.7" />
+  </Comment>
+  <Class Name="DsmSuite.DsmViewer.Model.Core.DsmModel" Collapsed="true">
+    <Position X="4" Y="1.5" Width="1.75" />
+    <AssociationLine Name="_elementsDataModel" Type="DsmSuite.DsmViewer.Model.Core.DsmElementModel">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.147" Y="0.257" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="_actionsDataModel" Type="DsmSuite.DsmViewer.Model.Core.DsmActionModel">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.252" Y="1.077" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="_relationsDataModel" Type="DsmSuite.DsmViewer.Model.Core.DsmRelationModel">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-1.622" Y="1.072" Height="0.182" Width="1.739" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>ApAkRACAIJQBAGSAAAILQAEAoIgjJYCExkQgBARgFKA=</HashCode>
+      <FileName>Core\DsmModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_elementsDataModel" />
+      <Field Name="_relationsDataModel" />
+      <Field Name="_actionsDataModel" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.866" />
+  </Class>
+  <Class Name="DsmSuite.DsmViewer.Model.Core.DsmElement" Collapsed="true">
+    <Position X="4" Y="5.25" Width="1.5" />
+    <AssociationLine Name="Dependencies" Type="DsmSuite.DsmViewer.Model.Core.DsmDependencies">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.011" Y="0.199" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAMSAQBAAAwAAASAAAgMQEQQEAIBQIAgARAEAQgGAQg=</HashCode>
+      <FileName>Core\DsmElement.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Dependencies" />
+    </ShowAsAssociation>
+    <Lollipop Position="1.242" />
+  </Class>
+  <Class Name="DsmSuite.DsmViewer.Model.Core.DsmElementModel" Collapsed="true">
+    <Position X="4" Y="2.75" Width="1.75" />
+    <AssociationLine Name="RootElement" Type="DsmSuite.DsmViewer.Model.Interfaces.IDsmElement">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.059" Y="0.313" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AIAgAICAAIAdAHCAAAIAEAlAIAgDJAIGBEAAIABADIA=</HashCode>
+      <FileName>Core\DsmElementModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="RootElement" />
+    </ShowAsAssociation>
+    <Lollipop Position="1.225" Collapsed="true" />
+  </Class>
+  <Class Name="DsmSuite.DsmViewer.Model.Core.DsmRelationModel" Collapsed="true">
+    <Position X="1" Y="2.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>IhAERACAAAQAACQBYAAiAQwAgQA4AYCMggBgBAVAAAA=</HashCode>
+      <FileName>Core\DsmRelationModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="_relationsById" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="DsmSuite.DsmViewer.Model.Core.DsmActionModel" Collapsed="true">
+    <Position X="7.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAMAAAAIAAAAAABAAAAAAAAABgAAA=</HashCode>
+      <FileName>Core\DsmActionModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="_actions" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="DsmSuite.DsmViewer.Model.Core.DsmRelation" Collapsed="true">
+    <Position X="1" Y="4" Width="1.5" />
+    <AssociationLine Name="Consumer" Type="DsmSuite.DsmViewer.Model.Interfaces.IDsmElement">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.305" Y="-0.225" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Provider" Type="DsmSuite.DsmViewer.Model.Interfaces.IDsmElement">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.238" Y="0.128" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAECAAAAAAAEAAAAAAAAAAAAACBAQAAIAQACAQACAAI=</HashCode>
+      <FileName>Core\DsmRelation.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Consumer" />
+      <Property Name="Provider" />
+    </ShowAsAssociation>
+    <Lollipop Orientation="Bottom" Position="0.701" />
+  </Class>
+  <Class Name="DsmSuite.DsmViewer.Model.Core.DsmAction" Collapsed="true">
+    <Position X="7.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAABAAAQAAAAAAAAA=</HashCode>
+      <FileName>Core\DsmAction.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.658" />
+  </Class>
+  <Class Name="DsmSuite.DsmViewer.Model.Core.DsmDependencies" Collapsed="true">
+    <Position X="4" Y="6.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAQgQABAAAAABAAAAIBABIABBYAAAAwAgBAAAAAAA=</HashCode>
+      <FileName>Core\DsmDependencies.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="DsmSuite.DsmViewer.Model.Interfaces.IDsmModel" Collapsed="true">
+    <Position X="4" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ApAkRACAIIQBAGSAAAILQAEAoIgjJYCEhkAgBARgBAA=</HashCode>
+      <FileName>Interfaces\IDsmModel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="DsmSuite.DsmViewer.Model.Interfaces.IDsmElement" Collapsed="true">
+    <Position X="4" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAMCAQBAAAgAAAAAAAAEQEQAEAAAAAAAARAEAQgGAAg=</HashCode>
+      <FileName>Interfaces\IDsmElement.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Children" />
+    </ShowAsCollectionAssociation>
+  </Interface>
+  <Interface Name="DsmSuite.DsmViewer.Model.Interfaces.IDsmAction" Collapsed="true">
+    <Position X="7.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAABAAAQAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IDsmAction.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="DsmSuite.DsmViewer.Model.Interfaces.IDsmRelation" Collapsed="true">
+    <Position X="1" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAEAAAAAAAAAAAAACBAAAAAAQACAQACAAA=</HashCode>
+      <FileName>Interfaces\IDsmRelation.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

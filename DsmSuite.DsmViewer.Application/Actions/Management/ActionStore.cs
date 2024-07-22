@@ -8,10 +8,21 @@ using System.Collections.Generic;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Management
 {
+    /// <summary>
+    /// Stores/restores user actions to/from the model.
+    /// </summary>
+    /// <remarks>
+    /// The ActionType enum tags are used as the action string for the model.
+    /// </remarks>
     public class ActionStore
     {
         private readonly IDsmModel _model;
         private readonly IActionManager _actionManager;
+        // Translate ActionType's to the implementing classes.
+        // The ActionType enum tags are used as the action string for the model.
+        // TODO Isn't a string->Type dictionary more suitable?
+        // TODO Make certain (compile/runtime) all actions are indeed in the table (cut/copy/paste currently aren't)
+        // otherwise we can't load model that we saved.
         private readonly Dictionary<ActionType, Type> _types;
 
         public ActionStore(IDsmModel model, IActionManager actionManager)
@@ -23,6 +34,11 @@ namespace DsmSuite.DsmViewer.Application.Actions.Management
             RegisterActionTypes();
         }
 
+        /// <summary>
+        /// Loads all actions from the model into the ActionManager.
+        /// Unrecognized actions are silently ignored.
+        /// If any action cannot be loaded correctly, the ActionManager is cleared.
+        /// </summary>
         public void LoadFromModel()
         {
             foreach (IDsmAction action in _model.GetActions())
@@ -50,6 +66,9 @@ namespace DsmSuite.DsmViewer.Application.Actions.Management
             }
         }
 
+        /// <summary>
+        /// Saves all actions in the ActionManager to the model.
+        /// </summary>
         public void SaveToModel()
         {
             if (_actionManager.Validate())
@@ -63,6 +82,7 @@ namespace DsmSuite.DsmViewer.Application.Actions.Management
 
         private void RegisterActionTypes()
         {
+            //TODO cut/copy/paste actions not present
             _types[ElementChangeNameAction.RegisteredType] = typeof(ElementChangeNameAction);
             _types[ElementChangeTypeAction.RegisteredType] = typeof(ElementChangeTypeAction);
             _types[ElementChangeParentAction.RegisteredType] = typeof(ElementChangeParentAction);

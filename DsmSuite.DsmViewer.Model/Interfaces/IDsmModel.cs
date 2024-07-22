@@ -5,6 +5,16 @@ using System.Collections.Generic;
 
 namespace DsmSuite.DsmViewer.Model.Interfaces
 {
+    /// <summary>
+    /// Represents a domain structure matrix. A Dsm model consists of a hierarchy of elements
+    /// <see cref="IDsmElement"/>, relations <see cref="IDsmRelation"/> between elements and a
+    /// sequence of actions <see cref="IDsmAction"/> that were executed on the model.
+    /// </summary>
+    /// <remarks>
+    /// Models can be saved and loaded. Element and relations can have types (strings) assigned
+    /// to them. Actions are strings as well. The model is agnostic about the meaning of
+    /// actions and element/relation types.
+    /// </remarks>
     public interface IDsmModel
     {
         // Cleanup

@@ -4,6 +4,9 @@ using DsmSuite.DsmViewer.Model.Persistency;
 
 namespace DsmSuite.DsmViewer.Model.Core
 {
+    /// <summary>
+     /// Manages the actions of a model. Only used by DsmModel, which forwards calls here.
+     /// </summary>
     public class DsmActionModel : IDsmActionModelFileCallback
     {
         private readonly List<IDsmAction> _actions;

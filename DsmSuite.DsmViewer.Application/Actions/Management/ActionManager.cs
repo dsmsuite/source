@@ -7,6 +7,10 @@ using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace DsmSuite.DsmViewer.Application.Actions.Management
 {
+    /// <summary>
+    /// Manages user actions.
+    /// This include executing them, undo/redo and keeping a list of all executed actions.
+    /// </summary>
     public class ActionManager : IActionManager
     {
         private readonly Stack<IAction> _undoActionStack;
