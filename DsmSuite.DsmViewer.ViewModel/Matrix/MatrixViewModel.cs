@@ -7,6 +7,7 @@ using DsmSuite.DsmViewer.Application.Interfaces;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.ViewModel.Main;
 using DsmSuite.DsmViewer.ViewModel.Lists;
+using System.Security.RightsManagement;
 
 namespace DsmSuite.DsmViewer.ViewModel.Matrix
 {
@@ -34,6 +35,9 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         private List<string> _metrics;
         private int? _selectedConsumerId;
         private int? _selectedProviderId;
+
+        private const int _nrWeightBuckets = 10; // Number of buckets (quantiles) for grouping cell weights.
+        private List<List<double>> _weightPercentiles;  // The weight bucket for every cell as a percentile
 
         private ElementToolTipViewModel _columnHeaderTooltipViewModel;
         private CellToolTipViewModel _cellTooltipViewModel;
@@ -187,6 +191,13 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
         public IReadOnlyList<int> ColumnElementIds => _columnElementIds;
         public IReadOnlyList<IList<MatrixColor>> CellColors => _cellColors;
         public IReadOnlyList<IReadOnlyList<int>> CellWeights => _cellWeights;
+        /// <summary>
+        /// The weight percentile for every cell as a number between 0 and 1.
+        /// These are not actual percentiles, but quantiles with <c>_nrWeightBuckets"</c> buckets,
+        /// where bucket 0 is reserved for cells with weight 0.
+        /// </summary>
+        public IReadOnlyList<IReadOnlyList<double>> WeightPercentiles => _weightPercentiles;
+        
         public IReadOnlyList<string> Metrics => _metrics;
 
         public double ZoomLevel
@@ -540,11 +551,18 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
             }
         }
 
+        /// <summary>
+        /// For every cell, set its weight and its weight bucket.
+        /// </summary>
         private void DefineCellContent()
         {
-            _cellWeights = new List<List<int>>();
+            List<int> sortedWeights = new List<int>();
+            List<int> buckets = new List<int>(_nrWeightBuckets);
+
             int matrixSize = _elementViewModelLeafs.Count;
 
+            //---- Set weight for every cell
+            _cellWeights = new List<List<int>>();
             for (int row = 0; row < matrixSize; row++)
             {
                 _cellWeights.Add(new List<int>());
@@ -554,9 +572,40 @@ namespace DsmSuite.DsmViewer.ViewModel.Matrix
                     IDsmElement provider = _elementViewModelLeafs[row].Element;
                     int weight = _application.GetDependencyWeight(consumer, provider);
                     _cellWeights[row].Add(weight);
+                    if (weight > 0)
+                        sortedWeights.Add(weight);
+                }
+            }
+
+            //---- Set up weight buckets
+            buckets.Add(0);
+            if (sortedWeights.Count > 0)
+            {
+                sortedWeights.Sort();
+                int stepSize = sortedWeights.Count / _nrWeightBuckets;
+                for (int i = 1; i < _nrWeightBuckets; i++)
+                {
+                    buckets.Add(sortedWeights[i * stepSize]);
+                }
+            }
+
+            //---- Assign every cell its weight percentile
+            _weightPercentiles = new List<List<double>>();
+            for (int row = 0; row < matrixSize; row++)
+            {
+                _weightPercentiles.Add(new List<double>());
+                for (int column = 0; column < matrixSize; column++)
+                {
+                    int i = buckets.Count-1;
+                    while (_cellWeights[row][column] < buckets[i])
+                        i--;
+                    if (i == 0)     // Bucket 0 is for weight 0 exclusively
+                        i = 1;
+                    _weightPercentiles[row].Add(i / (double) _nrWeightBuckets);
                 }
             }
         }
+
 
         private void DefineMetrics()
         {

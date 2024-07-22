@@ -28,6 +28,8 @@
     <SolidColorBrush x:Key="MatrixColorMatch" po:Freeze="True">#ff0000</SolidColorBrush>
     <SolidColorBrush x:Key="MatrixColorBookmark" po:Freeze="True">#00ff00</SolidColorBrush>
 
+    <SolidColorBrush x:Key="CellWeightColor" po:Freeze="True">#606060</SolidColorBrush>
+
     <sys:Double x:Key="HighlightFactorHovered" >1.1</sys:Double>
     <sys:Double x:Key="HighlightFactorSelected" >1.2</sys:Double>
 </ResourceDictionary>

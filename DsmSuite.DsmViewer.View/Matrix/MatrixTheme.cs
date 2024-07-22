@@ -18,6 +18,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
             MatrixHeaderHeight = (double)_frameworkElement.FindResource("MatrixHeaderHeight");
             MatrixMetricsViewWidth = (double)_frameworkElement.FindResource("MatrixMetricsViewWidth");
             TextColor = (SolidColorBrush)_frameworkElement.FindResource("TextColor");
+            CellWeightColor = (SolidColorBrush)_frameworkElement.FindResource("CellWeightColor");
             MatrixColorConsumer = (SolidColorBrush)_frameworkElement.FindResource("MatrixColorConsumer");
             MatrixColorProvider = (SolidColorBrush)_frameworkElement.FindResource("MatrixColorProvider");
             MatrixColorMatch = (SolidColorBrush)_frameworkElement.FindResource("MatrixColorMatch");
@@ -51,6 +52,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
         public double MatrixHeaderHeight { get; }
         public double MatrixMetricsViewWidth { get; }
         public SolidColorBrush TextColor { get; }
+        public SolidColorBrush CellWeightColor { get; }
         public SolidColorBrush MatrixColorConsumer { get; }
         public SolidColorBrush MatrixColorProvider { get; }
         public SolidColorBrush MatrixColorMatch { get; }

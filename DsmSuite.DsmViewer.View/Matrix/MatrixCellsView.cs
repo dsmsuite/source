@@ -5,16 +5,19 @@ using DsmSuite.DsmViewer.ViewModel.Matrix;
 
 namespace DsmSuite.DsmViewer.View.Matrix
 {
+    /// <summary>
+    /// The view for the square block of cells in a matrix.
+    /// </summary>
     public class MatrixCellsView : MatrixFrameworkElement
     {
         private MatrixViewModel _viewModel;
         private readonly MatrixTheme _theme;
-        private Rect _rect;
+        private Rect _rect;     // Area of the cell that is being rendered (reused)
         private int? _hoveredRow;
         private int? _hoveredColumn;
-        private readonly double _pitch;
-        private readonly double _offset;
-        private readonly double _verticalTextOffset = 16.0;
+        private readonly double _pitch;     // Distance between the same points in neighbouring cells
+        private readonly double _offset;    // Distance between header and first cell (hor/ver)
+        private readonly double _verticalTextOffset = 11.0; // Distance between top of cell and baseline of text
 
         public MatrixCellsView()
         {
@@ -86,6 +89,9 @@ namespace DsmSuite.DsmViewer.View.Matrix
         {
             if (_viewModel != null)
             {
+                SolidColorBrush weightBrush = _theme.CellWeightColor;
+                Rect weightRect = new Rect(0, 0, _theme.MatrixCellSize, 0.5 * _theme.MatrixCellSize);
+
                 int matrixSize = _viewModel.MatrixSize;
                 for (int row = 0; row < matrixSize; row++)
                 {
@@ -106,6 +112,13 @@ namespace DsmSuite.DsmViewer.View.Matrix
                         int weight = _viewModel.CellWeights[row][column];
                         if (weight > 0)
                         {
+                            //---- Weight as a filled block
+                            weightRect.X = _rect.X;
+                            weightRect.Y = _rect.Y + 0.5 * _rect.Height;
+                            weightRect.Width = _theme.MatrixCellSize * _viewModel.WeightPercentiles[row][column];
+                            dc.DrawRectangle(weightBrush, null, weightRect);
+
+                            //---- Weight as a number
                             char infinity = '\u221E';
                             string content = weight > 9999 ? infinity.ToString() : weight.ToString();
 
@@ -116,7 +129,7 @@ namespace DsmSuite.DsmViewer.View.Matrix
                                 X = (column * _pitch) + (_pitch - textWidth) / 2,
                                 Y = (row * _pitch) + _verticalTextOffset
                             };
-                            DrawText(dc, content, location, _theme.TextColor,_rect.Width - _theme.SpacingWidth);
+                            DrawText(dc, content, location, _theme.TextColor, _rect.Width - _theme.SpacingWidth);
                         }
                     }
                 }
