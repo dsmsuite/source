@@ -3,6 +3,7 @@ using DsmSuite.DsmViewer.Model.Interfaces;
 using Moq;
 using DsmSuite.DsmViewer.Application.Actions.Relation;
 using System.Collections.Generic;
+using System;
 
 namespace DsmSuite.DsmViewer.Application.Test.Actions.Relation
 {
@@ -68,8 +69,9 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Relation
         {
             _model.Setup(x => x.GetRelationById(RelationId)).Returns(_relation.Object);
 
-            object[] args = { _model.Object, _data };
-            RelationChangeTypeAction action = new RelationChangeTypeAction(args);
+            object[] args = { _model.Object, null, _data };
+            RelationChangeTypeAction action =
+                    Activator.CreateInstance(typeof(RelationChangeTypeAction), args) as RelationChangeTypeAction;
 
             Assert.AreEqual(3, action.Data.Count);
             Assert.AreEqual(RelationId.ToString(), _data["relation"]);

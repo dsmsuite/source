@@ -16,22 +16,17 @@ namespace DsmSuite.DsmViewer.Application.Actions.Relation
 
         public const ActionType RegisteredType = ActionType.RelationDelete;
 
-        public RelationDeleteAction(object[] args)
+        public RelationDeleteAction(IDsmModel model, IActionContext context, IReadOnlyDictionary<string, string> data)
         {
-            if (args.Length == 3)
+            _model = model;
+            _actionContext = context;
+            if (_model != null  &&  data != null)
             {
-                _model = args[0] as IDsmModel;
-                _actionContext = args[1] as IActionContext;
-                IReadOnlyDictionary<string, string> data = args[2] as IReadOnlyDictionary<string, string>;
+                ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(_model, data);
 
-                if ((_model != null) && (data != null))
-                {
-                    ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(_model, data);
-
-                    _relation = attributes.GetRelation(nameof(_relation));
-                    _consumer = attributes.GetRelationConsumer(nameof(_relation));
-                    _provider = attributes.GetRelationProvider(nameof(_relation));
-                }
+                _relation = attributes.GetRelation(nameof(_relation));
+                _consumer = attributes.GetRelationConsumer(nameof(_relation));
+                _provider = attributes.GetRelationProvider(nameof(_relation));
             }
         }
 

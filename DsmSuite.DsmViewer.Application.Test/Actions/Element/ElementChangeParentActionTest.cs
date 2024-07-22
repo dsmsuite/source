@@ -3,6 +3,7 @@ using DsmSuite.DsmViewer.Model.Interfaces;
 using Moq;
 using System.Collections.Generic;
 using DsmSuite.DsmViewer.Application.Actions.Element;
+using System;
 
 namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
 {
@@ -24,7 +25,7 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
         private const int NewIndex = 5;
 
         private const string OldName = "OldName";
-        private const string NewName = "NewName";
+        private const string NewName = "OldName (duplicate)";
 
         [TestInitialize()]
         public void Setup()
@@ -48,17 +49,17 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
             _data = new Dictionary<string, string>
             {
                 ["element"] = ElementId.ToString(),
-                ["old"] = OldParentId.ToString(),
+                ["oldParent"] = OldParentId.ToString(),
                 ["oldIndex"] = OldIndex.ToString(),
                 ["oldName"] = OldName,
-                ["new"] = NewParentId.ToString(),
+                ["newParent"] = NewParentId.ToString(),
                 ["newIndex"] = NewIndex.ToString(),
                 ["newName"] = NewName,
             };
         }
 
         [TestMethod]
-        public void WhenDoActionThenElementParentIsChangedDataModel()
+        public void WhenDoActionThenElementParentIsChangedDataModelNoNameChange()
         {
             _newParent.Setup(x => x.ContainsChildWithName(OldName)).Returns(false);
 
@@ -68,6 +69,21 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
             Assert.IsTrue(action.IsValid());
 
             _model.Verify(x => x.ChangeElementParent(_element.Object, _newParent.Object, NewIndex), Times.Once());
+            _model.Verify(x => x.ChangeElementName(It.IsAny<IDsmElement>(), It.IsAny<string>()), Times.Never());
+        }
+
+        [TestMethod]
+        public void WhenDoActionThenElementParentIsChangedDataModelNameChange()
+        {
+            _newParent.Setup(x => x.ContainsChildWithName(OldName)).Returns(true);
+
+            ElementChangeParentAction action =
+                new ElementChangeParentAction(_model.Object, _element.Object, _newParent.Object, NewIndex);
+            action.Do();
+            Assert.IsTrue(action.IsValid());
+
+            _model.Verify(x => x.ChangeElementParent(_element.Object, _newParent.Object, NewIndex), Times.Once());
+            _model.Verify(x => x.ChangeElementName(_element.Object, NewName), Times.Once());
         }
 
         [TestMethod]
@@ -81,34 +97,45 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
             Assert.IsTrue(action.IsValid());
 
             _model.Verify(x => x.ChangeElementParent(_element.Object, _oldParent.Object, OldIndex), Times.Once());
+            _model.Verify(x => x.ChangeElementName(It.IsAny<IDsmElement>(), It.IsAny<string>()), Times.Never());
         }
 
         [TestMethod]
         public void WhenUndoActionThenElementParentIsRevertedDataModelNameChange()
         {
-            Assert.Inconclusive("To be implemented");
+            string elementName = null;
+
+            _newParent.Setup(x => x.ContainsChildWithName(OldName)).Returns(true);
+            _model.Setup(x => x.ChangeElementName(It.IsAny<IDsmElement>(), It.IsAny<string>()))
+                    .Callback((IDsmElement e, string name) => { elementName = name; });
+
+            ElementChangeParentAction action =
+                new ElementChangeParentAction(_model.Object, _element.Object, _newParent.Object, NewIndex);
+            // Do saves state in Data so we cannot test Undo() without calling Do
+            action.Do();
+            action.Undo();
+            Assert.IsTrue(action.IsValid());
+
+            _model.Verify(x => x.ChangeElementParent(_element.Object, _oldParent.Object, OldIndex), Times.Once());
+            _model.Verify(x => x.ChangeElementName(_element.Object, OldName), Times.Once());
+            Assert.AreEqual(elementName, OldName);
         }
 
         [TestMethod]
-        public void GivenLoadedActionWhenGettingDataThenActionAttributesMatchNoNameChange()
+        public void GivenLoadedActionWhenGettingDataThenActionAttributesMatch()
         {
-            object[] args = {_model.Object, _data};
-            ElementChangeParentAction action = new ElementChangeParentAction(args);
+            object[] args = {_model.Object, null, _data};
+            ElementChangeParentAction action =
+                    Activator.CreateInstance(typeof(ElementChangeParentAction), args) as ElementChangeParentAction;
 
             Assert.AreEqual(7, action.Data.Count);
             Assert.AreEqual(ElementId.ToString(), _data["element"]);
-            Assert.AreEqual(OldParentId.ToString(), _data["old"]);
+            Assert.AreEqual(OldParentId.ToString(), _data["oldParent"]);
             Assert.AreEqual(OldIndex.ToString(), _data["oldIndex"]);
             Assert.AreEqual(OldName, _data["oldName"]);
-            Assert.AreEqual(NewParentId.ToString(), _data["new"]);
+            Assert.AreEqual(NewParentId.ToString(), _data["newParent"]);
             Assert.AreEqual(NewIndex.ToString(), _data["newIndex"]);
             Assert.AreEqual(NewName, _data["newName"]);
-        }
-
-        [TestMethod]
-        public void GivenLoadedActionWhenGettingDataThenActionAttributesMatchNameChange()
-        {
-            Assert.Inconclusive("To be implemented");
         }
     }
 }

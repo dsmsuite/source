@@ -11,13 +11,8 @@ namespace DsmSuite.Analyzer.DotNet.Test.Analysis
     [TestClass]
     public class AnalyzerTest
     {
-        [TestMethod]
-        public void TestAnalyze()
+        private void TestAnalyze(AnalyzerSettings analyzerSettings)
         {
-            AnalyzerSettings analyzerSettings = AnalyzerSettings.CreateDefault();
-            analyzerSettings.Input.AssemblyDirectory = TestData.RootDirectory;
-            analyzerSettings.Transformation.IgnoredNames = new List<string>();
-
             IDsiModel model = new DsiModel("Test", analyzerSettings.Transformation.IgnoredNames, Assembly.GetExecutingAssembly());
             DotNet.Analysis.Analyzer analyzer = new DotNet.Analysis.Analyzer(model, analyzerSettings, null);
             analyzer.Analyze();
@@ -81,30 +76,30 @@ namespace DsmSuite.Analyzer.DotNet.Test.Analysis
             IDsiElement elementGenericParameterType = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.GenericParameterType`1");
             Assert.IsNotNull(elementGenericParameterType);
 
-            IDsiElement elementGenericParameterTypeParameter = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.GenericParameterTypeParameter"); 
+            IDsiElement elementGenericParameterTypeParameter = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.GenericParameterTypeParameter");
             Assert.IsNotNull(elementGenericParameterTypeParameter);
 
             // Return types
-            IDsiElement elementReturnType = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.ReturnType"); 
+            IDsiElement elementReturnType = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.ReturnType");
             Assert.IsNotNull(elementReturnType);
 
-            IDsiElement elementReturnEnum = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.ReturnEnum"); 
+            IDsiElement elementReturnEnum = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.ReturnEnum");
             Assert.IsNotNull(elementReturnEnum);
 
-            IDsiElement elementGenericReturnType = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.GenericReturnType`1"); 
+            IDsiElement elementGenericReturnType = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.GenericReturnType`1");
             Assert.IsNotNull(elementGenericReturnType);
 
-            IDsiElement elementGenericReturnTypeParameter = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.GenericReturnTypeParameter"); 
+            IDsiElement elementGenericReturnTypeParameter = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.GenericReturnTypeParameter");
             Assert.IsNotNull(elementGenericReturnTypeParameter);
 
             IDsiElement elementDelegateGenericParameter = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.DelegateGenericParameter");
             Assert.IsNotNull(elementDelegateGenericParameter);
 
-            IDsiElement elementEventsArgsGenericParameter = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.EventsArgsGenericParameter"); 
+            IDsiElement elementEventsArgsGenericParameter = model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.EventsArgsGenericParameter");
             Assert.IsNotNull(elementEventsArgsGenericParameter);
 
             // Main relations
-            Assert.IsTrue(model.DoesRelationExist(elementMainClient.Id, elementMainType.Id)); 
+            Assert.IsTrue(model.DoesRelationExist(elementMainClient.Id, elementMainType.Id));
             Assert.IsTrue(model.DoesRelationExist(elementMainClient.Id, elementEventsArgsGenericParameter.Id));
 
             Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementNestedType.Id));
@@ -116,15 +111,15 @@ namespace DsmSuite.Analyzer.DotNet.Test.Analysis
             Assert.IsTrue(model.DoesRelationExist(elementMainTypeAnonymous.Id, elementDelegateGenericParameter.Id));
             Assert.IsTrue(model.DoesRelationExist(elementMainTypeAnonymous.Id, elementDelegateGenericParameter.Id));
 
-            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementInterfaceA.Id)); 
-            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementBaseType.Id)); 
+            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementInterfaceA.Id));
+            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementBaseType.Id));
 
             Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementEventsArgsGenericParameter.Id));
             Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementDelegateGenericParameter.Id));
 
             // Field relations
-            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementFieldType.Id)); 
-            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementGenericFieldType.Id)); 
+            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementFieldType.Id));
+            Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementGenericFieldType.Id));
 
             // Property relations
             Assert.IsTrue(model.DoesRelationExist(elementMainType.Id, elementPropertyType.Id));
@@ -156,6 +151,110 @@ namespace DsmSuite.Analyzer.DotNet.Test.Analysis
             Assert.IsTrue(model.DoesRelationExist(elementInterfaceA.Id, elementReturnEnum.Id));
             Assert.IsTrue(model.DoesRelationExist(elementInterfaceA.Id, elementGenericReturnType.Id));
             Assert.IsTrue(model.DoesRelationExist(elementInterfaceA.Id, elementGenericReturnTypeParameter.Id));
+        }
+
+        [TestMethod]
+        public void TestAnalyzeDirectory()
+        {
+            AnalyzerSettings analyzerSettings = AnalyzerSettings.CreateDefault();
+            analyzerSettings.Input.AssemblyDirectory = TestData.RootDirectory;
+            analyzerSettings.Transformation.IgnoredNames = new List<string>();
+
+            TestAnalyze(analyzerSettings);
+        }
+
+        [TestMethod]
+        public void TestAnalyzeDirectories()
+        {
+            AnalyzerSettings analyzerSettings = AnalyzerSettings.CreateDefault();
+            analyzerSettings.Input.AssemblyDirectories = new List<string> { TestData.RootDirectory };
+            analyzerSettings.Transformation.IgnoredNames = new List<string>();
+
+            TestAnalyze(analyzerSettings);
+        }
+
+        [TestMethod]
+        public void TestIncludeAssemblyNames()
+        {
+            IDsiModel model;
+            DotNet.Analysis.Analyzer analyzer;
+
+            AnalyzerSettings analyzerSettings = AnalyzerSettings.CreateDefault();
+            analyzerSettings.Input.AssemblyDirectories = new List<string> { TestData.RootDirectory };
+            analyzerSettings.Transformation.IgnoredNames = new List<string>();
+
+            analyzerSettings.Input.IncludeAssemblyNames = new List<string> { @".*" };
+            model = new DsiModel("Test", analyzerSettings.Transformation.IgnoredNames, Assembly.GetExecutingAssembly());
+            analyzer = new DotNet.Analysis.Analyzer(model, analyzerSettings, null);
+            analyzer.Analyze();
+            Assert.IsNotNull(model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.MainClient"));
+
+            analyzerSettings.Input.IncludeAssemblyNames = new List<string> { @"Model", @"Dot[Nn]et\.Test\.(Data)?" };
+            model = new DsiModel("Test", analyzerSettings.Transformation.IgnoredNames, Assembly.GetExecutingAssembly());
+            analyzer = new DotNet.Analysis.Analyzer(model, analyzerSettings, null);
+            analyzer.Analyze();
+            Assert.IsNotNull(model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.MainClient"));
+
+            analyzerSettings.Input.IncludeAssemblyNames = new List<string> { @"Model" };
+            model = new DsiModel("Test", analyzerSettings.Transformation.IgnoredNames, Assembly.GetExecutingAssembly());
+            analyzer = new DotNet.Analysis.Analyzer(model, analyzerSettings, null);
+            analyzer.Analyze();
+            Assert.IsNull(model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.MainClient"));
+        }
+
+        [TestMethod]
+        public void TestIncludedNames()
+        {
+            IDsiModel model;
+            DotNet.Analysis.Analyzer analyzer;
+
+            AnalyzerSettings analyzerSettings = AnalyzerSettings.CreateDefault();
+            analyzerSettings.Input.AssemblyDirectories = new List<string> { TestData.RootDirectory };
+            analyzerSettings.Transformation.IgnoredNames = new List<string>();
+
+            analyzerSettings.Transformation.IncludedNames = new List<string> { @"Model", @"Dot[Nn]et\.Test\.(Data)?.Main" };
+            model = new DsiModel("Test", analyzerSettings.Transformation.IgnoredNames, Assembly.GetExecutingAssembly());
+            analyzer = new DotNet.Analysis.Analyzer(model, analyzerSettings, null);
+            analyzer.Analyze();
+            Assert.IsNotNull(model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.MainClient"));
+            Assert.IsNull(model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.BaseType"));
+        }
+
+        [TestMethod]
+        public void TestIgnoredNames()
+        {
+            IDsiModel model;
+            DotNet.Analysis.Analyzer analyzer;
+
+            AnalyzerSettings analyzerSettings = AnalyzerSettings.CreateDefault();
+            analyzerSettings.Input.AssemblyDirectories = new List<string> { TestData.RootDirectory };
+            analyzerSettings.Transformation.IncludedNames = new List<string>();
+
+            analyzerSettings.Transformation.IgnoredNames = new List<string> { @"Model", @"/" };
+            model = new DsiModel("Test", analyzerSettings.Transformation.IgnoredNames, Assembly.GetExecutingAssembly());
+            analyzer = new DotNet.Analysis.Analyzer(model, analyzerSettings, null);
+            analyzer.Analyze();
+            Assert.IsNotNull(model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.MainClient"));
+            Assert.IsNotNull(model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.MainType"));
+            Assert.IsNull(model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.MainType/NestedType"));
+        }
+        [TestMethod]
+        public void TestIncludedIgnoredNames()
+        {
+            IDsiModel model;
+            DotNet.Analysis.Analyzer analyzer;
+
+            AnalyzerSettings analyzerSettings = AnalyzerSettings.CreateDefault();
+            analyzerSettings.Input.AssemblyDirectories = new List<string> { TestData.RootDirectory };
+            analyzerSettings.Transformation.IncludedNames = new List<string> { @"Main" };
+
+            analyzerSettings.Transformation.IgnoredNames = new List<string> { @"MainType$" };
+            model = new DsiModel("Test", analyzerSettings.Transformation.IgnoredNames, Assembly.GetExecutingAssembly());
+            analyzer = new DotNet.Analysis.Analyzer(model, analyzerSettings, null);
+            analyzer.Analyze();
+            Assert.IsNotNull(model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.MainClient"));
+            Assert.IsNull(model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.MainType"));
+            Assert.IsNotNull(model.FindElementByName("DsmSuite.Analyzer.DotNet.Test.Data.MainType/NestedType"));
         }
     }
 }

@@ -3,6 +3,7 @@ using DsmSuite.DsmViewer.Model.Interfaces;
 using Moq;
 using DsmSuite.DsmViewer.Application.Actions.Element;
 using System.Collections.Generic;
+using System;
 
 namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
 {
@@ -59,8 +60,8 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
         [TestMethod]
         public void GivenLoadedActionWhenGettingDataThenActionAttributesMatch()
         {
-            object[] args = { _model.Object, _data };
-            ElementMoveDownAction action = new ElementMoveDownAction(args);
+            object[] args = { _model.Object, null, _data };
+            ElementMoveDownAction action = Activator.CreateInstance(typeof(ElementMoveDownAction), args) as ElementMoveDownAction;
 
             Assert.AreEqual(1, action.Data.Count);
             Assert.AreEqual(ElementId.ToString(), _data["element"]);

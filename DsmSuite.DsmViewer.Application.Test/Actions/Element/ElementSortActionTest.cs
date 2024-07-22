@@ -5,6 +5,7 @@ using DsmSuite.DsmViewer.Application.Actions.Element;
 using System.Collections.Generic;
 using DsmSuite.DsmViewer.Application.Sorting;
 using DsmSuite.DsmViewer.Application.Test.Stubs;
+using System;
 
 namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
 {
@@ -53,8 +54,8 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
         [TestMethod]
         public void WhenUndoActionThenElementsChildrenAreSortIsReverted()
         {
-            object[] args = { _model.Object, _data };
-            ElementSortAction action = new ElementSortAction(args);
+            object[] args = { _model.Object, null, _data };
+            ElementSortAction action = Activator.CreateInstance(typeof(ElementSortAction), args) as ElementSortAction;
             action.Undo();
             Assert.IsTrue(action.IsValid());
 
@@ -64,8 +65,8 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
         [TestMethod]
         public void GivenLoadedActionWhenGettingDataThenActionAttributesMatch()
         {
-            object[] args = { _model.Object, _data };
-            ElementSortAction action = new ElementSortAction(args);
+            object[] args = { _model.Object, null, _data };
+            ElementSortAction action = Activator.CreateInstance(typeof(ElementSortAction), args) as ElementSortAction;
 
             Assert.AreEqual(3, action.Data.Count);
             Assert.AreEqual(ElementId.ToString(), _data["element"]);

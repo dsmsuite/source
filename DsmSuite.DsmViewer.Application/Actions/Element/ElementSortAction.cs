@@ -17,22 +17,17 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public const ActionType RegisteredType = ActionType.ElementSort;
 
-        public ElementSortAction(object[] args)
+        public ElementSortAction(IDsmModel model, IActionContext context, IReadOnlyDictionary<string, string> data)
         {
-            if (args.Length == 3)
+            _model = model;
+            _actionContext = context;
+            if (_model != null  &&  data != null)
             {
-                _model = args[0] as IDsmModel;
-                _actionContext = args[1] as IActionContext;
-                IReadOnlyDictionary<string, string> data = args[2] as IReadOnlyDictionary<string, string>;
+                ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(_model, data);
 
-                if ((_model != null) && (data != null))
-                {
-                    ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(_model, data);
-
-                    _element = attributes.GetElement(nameof(_element));
-                    _algorithm = attributes.GetString(nameof(_algorithm));
-                    _order = attributes.GetString(nameof(_order));
-                }
+                _element = attributes.GetElement(nameof(_element));
+                _algorithm = attributes.GetString(nameof(_algorithm));
+                _order = attributes.GetString(nameof(_order));
             }
         }
 

@@ -3,6 +3,7 @@ using DsmSuite.DsmViewer.Application.Actions.Relation;
 using Moq;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using System.Collections.Generic;
+using System;
 
 namespace DsmSuite.DsmViewer.Application.Test.Actions.Relation
 {
@@ -63,8 +64,8 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Relation
         {
             _model.Setup(x => x.GetRelationById(RelationId)).Returns(_relation.Object);
 
-            object[] args = { _model.Object, _data };
-            RelationCreateAction action = new RelationCreateAction(args);
+            object[] args = { _model.Object, null, _data };
+            RelationCreateAction action = Activator.CreateInstance(typeof(RelationCreateAction), args) as RelationCreateAction;
             action.Undo();
 
             _model.Verify(x => x.RemoveRelation(RelationId), Times.Once());
@@ -75,8 +76,8 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Relation
         {
             _model.Setup(x => x.GetRelationById(RelationId)).Returns(_relation.Object);
 
-            object[] args = { _model.Object, _data };
-            RelationCreateAction action = new RelationCreateAction(args);
+            object[] args = { _model.Object, null, _data };
+            RelationCreateAction action = Activator.CreateInstance(typeof(RelationCreateAction), args) as RelationCreateAction;
 
             Assert.AreEqual(5, action.Data.Count);
             Assert.AreEqual(RelationId.ToString(), _data["relation"]);

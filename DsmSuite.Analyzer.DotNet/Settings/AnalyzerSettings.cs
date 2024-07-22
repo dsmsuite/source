@@ -1,12 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 using DsmSuite.Common.Util;
 
 namespace DsmSuite.Analyzer.DotNet.Settings
 {
+    /// <summary>
+    /// InputSettings determine which assemblies are analyzed.<para/>
+    /// Either a single directory can be specified
+    /// in <c>AssemblyDirectory</c>, or multiple directories in <c>AssemblyDirectories</c>. Setting both
+    /// <c>AssemblyDirectory</c> and <c>AssemblyDirectories</c> leads to undefined behaviour.<para/>
+    /// If <c>IncludeAssemblyNames</c> is non-empty, an assembly is only analyzed if its <b>basename</b> contains
+    /// a match for a regex in <c>IncludeAssemblyNames</c>; otherwise all assemblies are analyzed.
+    /// Note that regex matching is case-sensitive.
+    /// </summary>
     [Serializable]
     public class InputSettings
     {
@@ -17,6 +27,16 @@ namespace DsmSuite.Analyzer.DotNet.Settings
         public List<string> IncludeAssemblyNames { get; set; }
     }
 
+    /// <summary>
+    /// TransformationSettings determine which symbols are included in the output model.<para/>
+    /// If <c>IncludedNames</c> is non-empty, symbols are only included if they contain a match for
+    /// a regex in this list. Otherwise all symbols are included.<para/>
+    /// If <c>IgnoredNames</c> is non-empty, symbols are not included if they contain a match for
+    /// a regex in this list. Otherwise all symbols are included.
+    /// IgnoredNames is evaluated after IncludedNames, so a symbol that matches both is ignored.<para/>
+    /// Note that regex matching is case-sensitive.
+    /// </summary>
+    /// todo Why both IgnoredNames and IncludedNames and why is one handled by DsiModel and the other by BinaryFile
     [Serializable]
     public class TransformationSettings
     {
@@ -42,6 +62,17 @@ namespace DsmSuite.Analyzer.DotNet.Settings
         public InputSettings Input { get; set; }
         public TransformationSettings Transformation { get; set; }
         public OutputSettings Output { get; set; }
+
+        /// <summary>
+        /// A convenience method that returns the configured assembly directory/ies.
+        /// </summary>
+        public IEnumerable<string> AssemblyDirectories()
+        {
+            if (Input.AssemblyDirectories?.Count > 0)
+                return Input.AssemblyDirectories;
+            else
+                return Enumerable.Repeat(Input.AssemblyDirectory, 1);
+        }
 
         public static AnalyzerSettings CreateDefault()
         {
@@ -100,6 +131,8 @@ namespace DsmSuite.Analyzer.DotNet.Settings
         private void ResolvePaths(string settingFilePath)
         {
             Input.AssemblyDirectory = FilePath.ResolveFile(settingFilePath, Input.AssemblyDirectory);
+            for (int i = 0; i < (Input.AssemblyDirectories?.Count ?? 0); i++)
+                Input.AssemblyDirectories[i] = FilePath.ResolveFile(settingFilePath, Input.AssemblyDirectories[i]);
             Output.Filename = FilePath.ResolveFile(settingFilePath, Output.Filename);
         }
     }

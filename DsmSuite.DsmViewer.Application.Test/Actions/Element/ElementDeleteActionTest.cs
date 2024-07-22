@@ -3,6 +3,7 @@ using Moq;
 using DsmSuite.DsmViewer.Model.Interfaces;
 using DsmSuite.DsmViewer.Application.Actions.Element;
 using System.Collections.Generic;
+using System;
 
 namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
 {
@@ -53,8 +54,9 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
         [TestMethod]
         public void GivenLoadedActionWhenGettingDataThenActionAttributesMatch()
         {
-            object[] args = { _model.Object, _data };
-            ElementDeleteAction action = new ElementDeleteAction(args);
+            object[] args = { _model.Object, null, _data };
+            ElementDeleteAction action =
+                    Activator.CreateInstance(typeof(ElementDeleteAction), args) as ElementDeleteAction;
 
             Assert.AreEqual(1, action.Data.Count);
             Assert.AreEqual(ElementId.ToString(), _data["element"]);

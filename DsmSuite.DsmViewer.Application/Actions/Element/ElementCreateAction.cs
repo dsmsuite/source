@@ -19,29 +19,24 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public const ActionType RegisteredType = ActionType.ElementCreate;
 
-        public ElementCreateAction(object[] args)
+        public ElementCreateAction(IDsmModel model, IActionContext context, IReadOnlyDictionary<string, string> data)
         {
-            if (args.Length == 3)
+            _model = model;
+            _actionContext = context;
+            if (_model != null  &&  data != null)
             {
-                _model = args[0] as IDsmModel;
-                _actionContext = args[1] as IActionContext;
-                IReadOnlyDictionary<string, string> data = args[2] as IReadOnlyDictionary<string, string>;
+                ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(_model, data);
 
-                if ((_model != null) && (data != null))
+                _element = attributes.GetElement(nameof(_element));
+                _name = attributes.GetString(nameof(_name));
+                _type = attributes.GetString(nameof(_type));
+
+                int? parentId = attributes.GetNullableInt(nameof(_parent));
+                if (parentId.HasValue)
                 {
-                    ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(_model, data);
-
-                    _element = attributes.GetElement(nameof(_element));
-                    _name = attributes.GetString(nameof(_name));
-                    _type = attributes.GetString(nameof(_type));
-
-                    int? parentId = attributes.GetNullableInt(nameof(_parent));
-                    if (parentId.HasValue)
-                    {
-                        _parent = _model.GetElementById(parentId.Value);
-                    }
-                    _index = attributes.GetInt(nameof(_index));
+                    _parent = _model.GetElementById(parentId.Value);
                 }
+                _index = attributes.GetInt(nameof(_index));
             }
         }
 

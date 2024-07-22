@@ -20,26 +20,21 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public const ActionType RegisteredType = ActionType.ElementChangeParent;
 
-        public ElementChangeParentAction(object[] args)
+        public ElementChangeParentAction(IDsmModel model, IActionContext context, IReadOnlyDictionary<string, string> data)
         {
-            if (args.Length == 3)
+            _model = model;
+            _actionContext = context;
+            if (_model != null  &&  data != null)
             {
-                _model = args[0] as IDsmModel;
-                _actionContext = args[1] as IActionContext;
-                IReadOnlyDictionary<string, string> data = args[2] as IReadOnlyDictionary<string, string>;
+                ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(_model, data);
 
-                if ((_model != null) && (data != null))
-                {
-                    ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(_model, data);
-
-                    _element = attributes.GetElement(nameof(_element));
-                    _oldParent = attributes.GetElement(nameof(_oldParent));
-                    _oldIndex = attributes.GetInt(nameof(_oldIndex));
-                    _oldName = attributes.GetString(nameof(_oldName));
-                    _newParent = attributes.GetElement(nameof(_newParent));
-                    _newIndex = attributes.GetInt(nameof(_newIndex));
-                    _newName = attributes.GetString(nameof(_newName));
-                }
+                _element = attributes.GetElement(nameof(_element));
+                _oldParent = attributes.GetElement(nameof(_oldParent));
+                _oldIndex = attributes.GetInt(nameof(_oldIndex));
+                _oldName = attributes.GetString(nameof(_oldName));
+                _newParent = attributes.GetElement(nameof(_newParent));
+                _newIndex = attributes.GetInt(nameof(_newIndex));
+                _newName = attributes.GetString(nameof(_newName));
             }
         }
 

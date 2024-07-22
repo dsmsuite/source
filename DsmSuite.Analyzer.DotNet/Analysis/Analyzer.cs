@@ -37,8 +37,7 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
         {
             //For every configured assembly directory lookup the files in the
             //directory and process the content of the files
-            IList<string> assemblyFolders = _analyzerSettings.Input.AssemblyDirectories;
-            foreach (string assemblyFolder in assemblyFolders)
+            foreach (string assemblyFolder in _analyzerSettings.AssemblyDirectories())
             {
                 Logger.LogUserMessage($"Assembly folder: {assemblyFolder}");
                 foreach (string assemblyFilename in Directory.EnumerateFiles(assemblyFolder))
@@ -82,12 +81,12 @@ namespace DsmSuite.Analyzer.DotNet.Analysis
 
         private bool Accept(string name)
         {
-            /*  Check wether the name meets the regex descriptions that have been configured.
+            /*  Check whether the name meets the regex descriptions that have been configured.
              *  If no regex descriptions have been configured then the file is accepted.
              */
             bool accept = false;
 
-            if (_analyzerSettings.Input.IncludeAssemblyNames.Count > 0)
+            if (_analyzerSettings.Input.IncludeAssemblyNames?.Count > 0)
             {
                 string fileNameWithoutExtension = "";
                 try

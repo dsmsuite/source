@@ -3,6 +3,7 @@ using DsmSuite.DsmViewer.Model.Interfaces;
 using Moq;
 using System.Collections.Generic;
 using DsmSuite.DsmViewer.Application.Actions.Element;
+using System;
 
 namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
 {
@@ -58,8 +59,8 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
         [TestMethod]
         public void WhenUndoActionThenElementIsRemovedFromDataModel()
         {
-            object[] args = { _model.Object, _data };
-            ElementCreateAction action = new ElementCreateAction(args);
+            object[] args = { _model.Object, null, _data };
+            ElementCreateAction action = Activator.CreateInstance(typeof(ElementCreateAction), args) as ElementCreateAction;
             action.Undo();
             Assert.IsTrue(action.IsValid());
 
@@ -69,8 +70,8 @@ namespace DsmSuite.DsmViewer.Application.Test.Actions.Element
         [TestMethod]
         public void GivenLoadedActionWhenGettingDataThenActionAttributesMatch()
         {
-            object[] args = { _model.Object, _data };
-            ElementCreateAction action = new ElementCreateAction(args);
+            object[] args = { _model.Object, null, _data };
+            ElementCreateAction action = Activator.CreateInstance(typeof(ElementCreateAction), args) as ElementCreateAction;
 
             Assert.AreEqual(5, action.Data.Count);
             Assert.AreEqual(ElementId.ToString(), _data["element"]);

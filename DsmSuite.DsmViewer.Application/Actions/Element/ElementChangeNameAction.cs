@@ -16,24 +16,20 @@ namespace DsmSuite.DsmViewer.Application.Actions.Element
 
         public const ActionType RegisteredType = ActionType.ElementChangeName;
 
-        public ElementChangeNameAction(object[] args)
+        public ElementChangeNameAction(IDsmModel model, IActionContext context, IReadOnlyDictionary<string, string> data)
         {
-            if (args.Length == 3)
+            _model = model;
+            _actionContext = context;
+            if (_model != null  &&  data != null)
             {
-                _model = args[0] as IDsmModel;
-                _actionContext = args[1] as IActionContext;
-                IReadOnlyDictionary<string, string> data = args[2] as IReadOnlyDictionary<string, string>;
+                ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(_model, data);
 
-                if ((_model != null) && (data != null))
-                {
-                    ActionReadOnlyAttributes attributes = new ActionReadOnlyAttributes(_model, data);
-
-                    _element = attributes.GetElement(nameof(_element));
-                    _old = attributes.GetString(nameof(_old));
-                    _new = attributes.GetString(nameof(_new));
-                }
+                _element = attributes.GetElement(nameof(_element));
+                _old = attributes.GetString(nameof(_old));
+                _new = attributes.GetString(nameof(_new));
             }
         }
+
 
         public ElementChangeNameAction(IDsmModel model, IDsmElement element, string name)
         {

@@ -19,8 +19,7 @@ namespace DsmSuite.Analyzer.DotNet
         protected override bool CheckPrecondition()
         {
             bool result = true;
-            IList<string> assemblyFolders = _analyzerSettings.Input.AssemblyDirectories;
-            foreach (string assemblyFolder in assemblyFolders)
+            foreach (string assemblyFolder in _analyzerSettings.AssemblyDirectories())
             {
                 if (!Directory.Exists(assemblyFolder))
                 {

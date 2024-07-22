@@ -13,14 +13,15 @@ namespace DsmSuite.Analyzer.DotNet.Lib
     public class BinaryFile
     {
         private readonly IProgress<ProgressInfo> _progress;
-        private readonly IList<TypeDefinition> _typeList = new List<TypeDefinition>();
-        private readonly IList<String> _includedAssemblyStrings = new List<String>();
+        private readonly List<TypeDefinition> _typeList = new List<TypeDefinition>();
+        private readonly List<String> _includedAssemblyStrings = new List<String>();
 
         public BinaryFile(string filename, IProgress<ProgressInfo> progress, List<String> includedAssemblyStrings)
         {
             FileInfo = new FileInfo(filename);
             _progress = progress;
-            _includedAssemblyStrings = includedAssemblyStrings;
+            if (includedAssemblyStrings != null)
+                _includedAssemblyStrings.AddRange(includedAssemblyStrings);
         }
 
         public List<DotNetType> Types { get; } = new List<DotNetType>();

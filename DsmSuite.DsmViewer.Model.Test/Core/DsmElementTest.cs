@@ -195,19 +195,74 @@ namespace DsmSuite.DsmViewer.Model.Test.Core
         [TestMethod]
         public void TestContainChildWithName()
         {
-            Assert.Inconclusive("To be implemented");
+            string childName = "the name";
+
+            int parentId = 1;
+            string parentName = "parent";
+            DsmElement parent = new DsmElement(parentId, parentName, "", null);
+            Assert.IsFalse(parent.ContainsChildWithName(childName));
+
+            DsmElement child1 = new DsmElement(10, "Child 1", "", null);
+            parent.InsertChildAtEnd(child1);
+            Assert.IsFalse(parent.ContainsChildWithName(childName));
+
+            DsmElement child2 = new DsmElement(11, "Child 2", "", null);
+            parent.InsertChildAtEnd(child2);
+            Assert.IsFalse(parent.ContainsChildWithName(childName));
+
+            DsmElement theChild = new DsmElement(2, childName, "", null);
+            parent.InsertChildAtEnd(theChild);
+            Assert.IsTrue(parent.ContainsChildWithName(childName));
+            Assert.IsFalse(parent.ContainsChildWithName(childName.ToUpper()));
+            Assert.IsFalse(parent.ContainsChildWithName("the náme"));
         }
 
         [TestMethod]
         public void TestInsertElementIndexInRange()
         {
-            Assert.Inconclusive("To be implemented");
+            int parentId = 1;
+            string parentName = "parent";
+            DsmElement parent = new DsmElement(parentId, parentName, "", null);
+            Assert.AreEqual(0, parent.Children.Count);
+
+            DsmElement child1 = new DsmElement(10, "child 1", "", null);
+            parent.InsertChildAtIndex(child1, 0);
+            Assert.AreEqual(1, parent.Children.Count);
+            Assert.AreEqual(parent, child1.Parent);
+
+            DsmElement child2 = new DsmElement(11, "child 2", "", null);
+            parent.InsertChildAtIndex(child2, 0);
+            Assert.AreEqual(2, parent.Children.Count);
+            Assert.AreEqual(parent, child2.Parent);
+
+            DsmElement child3 = new DsmElement(12, "child 3", "", null);
+            parent.InsertChildAtIndex(child3, 2);
+            Assert.AreEqual(3, parent.Children.Count);
+            Assert.AreEqual(parent, child3.Parent);
         }
 
         [TestMethod]
         public void TestInsertElementOutOfRange()
         {
-            Assert.Inconclusive("To be implemented");
+            int parentId = 1;
+            string parentName = "parent";
+            DsmElement parent = new DsmElement(parentId, parentName, "", null);
+            Assert.AreEqual(0, parent.Children.Count);
+
+            DsmElement child1 = new DsmElement(10, "child 1", "", null);
+            parent.InsertChildAtIndex(child1, 1);
+            Assert.AreEqual(1, parent.Children.Count);
+            Assert.AreEqual(parent, child1.Parent);
+
+            DsmElement child2 = new DsmElement(11, "child 2", "", null);
+            parent.InsertChildAtIndex(child2, 1000*1000);
+            Assert.AreEqual(2, parent.Children.Count);
+            Assert.AreEqual(parent, child2.Parent);
+
+            DsmElement child3 = new DsmElement(12, "child 3", "", null);
+            parent.InsertChildAtIndex(child3, -1);
+            Assert.AreEqual(3, parent.Children.Count);
+            Assert.AreEqual(parent, child3.Parent);
         }
     }
 }
